@@ -1,14 +1,23 @@
 defmodule Directory.Cache.FileSystemInitializer do
+  @behaviour Directory.Cache.Initializer
+
   require Logger
   alias Directory.CacheItem
   alias Directory.Cache.ContextUtil
 
-  @spec init( path :: String.t ) :: %{}
-  def init( path ) do
-    root_path = Path.absname( path )
-    Logger.info "Initialize directory cache from: #{root_path}"
-    {_, cache, _item} = create_item( { :ok, %{}, CacheItem.create_root( "", root_path, "", "") } )
-    cache
+  @spec init([]) :: %{}
+  def init( opts \\[] ) do
+    case Keyword.get(opts, :path) do
+      nil ->
+        Logger.error("No path given")
+        %{}
+      root_path ->
+        abs_root_path = Path.absname(root_path)
+        Logger.info "Initialize directory cache from: #{abs_root_path}"
+        cache_item = CacheItem.create_root( "", abs_root_path, "", "")
+        {_, cache, _item} = create_item( { :ok, %{}, cache_item } )
+        cache
+    end
   end
 
   defp create_item( context ) do

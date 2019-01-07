@@ -4,7 +4,7 @@ defmodule Directory.Cache.FileSystemInitializerTest do
   require Logger
 
   @test_dir "./test/mediathek/directory/test_dir"
-  @cache Directory.Cache.FileSystemInitializer.init(@test_dir)
+  @cache Directory.Cache.FileSystemInitializer.init(path: @test_dir)
 
   test "check cache size" do
     assert Map.size(@cache) == 9
