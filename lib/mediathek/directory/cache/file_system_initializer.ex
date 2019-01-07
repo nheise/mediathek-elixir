@@ -1,7 +1,7 @@
-defmodule Directory.CacheInitializer do
+defmodule Directory.Cache.FileSystemInitializer do
   require Logger
   alias Directory.CacheItem
-  alias Directory.CacheItem.ContextUtil
+  alias Directory.Cache.ContextUtil
 
   @spec init( path :: String.t ) :: %{}
   def init( path ) do

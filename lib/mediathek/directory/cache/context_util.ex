@@ -1,4 +1,4 @@
-defmodule Directory.CacheItem.ContextUtil do
+defmodule Directory.Cache.ContextUtil do
   alias Directory.CacheItem
 
   @type cache_item_context :: { atom, map, CacheItem.t }

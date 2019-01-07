@@ -1,10 +1,10 @@
-defmodule Directory.CacheInitializerTest do
+defmodule Directory.Cache.FileSystemInitializerTest do
   use ExUnit.Case, async: true
 
   require Logger
 
   @test_dir "./test/mediathek/directory/test_dir"
-  @cache Directory.CacheInitializer.init(@test_dir)
+  @cache Directory.Cache.FileSystemInitializer.init(@test_dir)
 
   test "check cache size" do
     assert Map.size(@cache) == 9

@@ -1,7 +1,7 @@
-defmodule Directory.CacheItem.ContextUtilTest do
+defmodule Directory.Cache.ContextUtilTest do
   use ExUnit.Case, async: true
 
-  alias Directory.CacheItem.ContextUtil
+  alias Directory.Cache.ContextUtil
 
   @context_list [ {:ok, %{b: "b"}, :item1 }, {:ok, %{c: "c",d: "d"}, :item2 } ]
 
