@@ -1,4 +1,4 @@
-defmodule Directory.Cache do
+defmodule Mediathek.Directory.Cache do
   use Agent
 
   @spec start_link((() -> any())) :: {:error, any()} | {:ok, pid()}
@@ -9,7 +9,7 @@ defmodule Directory.Cache do
   @doc """
     Gets an item out of the cache by its key.
   """
-  @spec get_item_by(key :: String.t) :: Directory.CacheItem.t
+  @spec get_item_by(key :: {String.t}) :: Directory.CacheItem.t
   def get_item_by(key) do
     Agent.get(__MODULE__, fn cache -> Map.get(cache, key) end )
   end

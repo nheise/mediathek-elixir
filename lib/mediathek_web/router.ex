@@ -20,7 +20,10 @@ defmodule MediathekWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", MediathekWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", MediathekWeb do
+    pipe_through :api
+
+    get "/directory", DirectoryController, :index
+    get "/directory/:mpath", DirectoryController, :show
+  end
 end
