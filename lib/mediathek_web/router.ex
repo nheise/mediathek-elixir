@@ -24,6 +24,6 @@ defmodule MediathekWeb.Router do
     pipe_through :api
 
     get "/directory", DirectoryController, :index
-    get "/directory/:mpath", DirectoryController, :show
+    get "/directory/:path", DirectoryController, :show
   end
 end

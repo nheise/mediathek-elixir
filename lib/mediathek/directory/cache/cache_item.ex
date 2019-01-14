@@ -1,5 +1,6 @@
 defmodule Directory.CacheItem do
   alias __MODULE__
+
   @enforce_keys [:full_path, :cache_path, :parent_cache_path, :name]
   defstruct full_path: nil, cache_path: nil, parent_cache_path: nil, name: "", type: :regular, size: 0, subs: []
 
