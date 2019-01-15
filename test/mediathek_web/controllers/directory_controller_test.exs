@@ -44,7 +44,57 @@ defmodule MediathekWeb.DirectoryControllerTest do
     subs: [@sub_dir, @sub_file]
   }
   @cache %{
-    {""} => @root_item
+    {""} => @root_item,
+    {"sub_dir/sub_dir"} => @sub_dir
+  }
+
+  @expected_sub_dir %{
+    "cache_path" => "sub_dir",
+    "full_path" => "/fullPath/sub_dir",
+    "name" => "sub_dir",
+    "parent_cache_path" => "",
+    "size" => 5,
+    "type" => "directory",
+    "subs" => [
+      %{
+        "cache_path" => "sub_dir/sub_dir",
+        "full_path" => "/fullPath/sub_dir/sub_dir",
+        "name" => "sub_dir",
+        "parent_cache_path" => "sub_dir",
+        "size" => 5,
+        "subs" => [],
+        "type" => "directory"
+      }
+    ]
+  }
+
+  @expected_root %{
+    "cache_path" => "",
+    "name" => "",
+    "parent_cache_path" => "",
+    "size" => 5,
+    "type" => "directory",
+    "full_path" => "/fullPath",
+    "subs" => [
+      %{
+        "cache_path" => "sub_dir",
+        "full_path" => "/fullPath/sub_dir",
+        "name" => "sub_dir",
+        "parent_cache_path" => "",
+        "size" => 5,
+        "subs" => [],
+        "type" => "directory"
+      },
+      %{
+        "cache_path" => "sub_file",
+        "full_path" => "/fullPath/sub_file",
+        "name" => "sub_file",
+        "parent_cache_path" => "",
+        "size" => 5,
+        "subs" => [],
+        "type" => "regular"
+      }
+    ]
   }
 
   describe "GET /directory" do
@@ -58,38 +108,22 @@ defmodule MediathekWeb.DirectoryControllerTest do
         |> get(Routes.directory_path(conn, :index))
         |> json_response(200)
 
-      expected = %{
-        "cache_path" => "",
-        "name" => "",
-        "parent_cache_path" => "",
-        "size" => 5,
-        "type" => "directory",
-        "full_path" => "/fullPath",
-        "subs" => [
-          %{
-            "cache_path" => "sub_dir",
-            "full_path" => "/fullPath/sub_dir",
-            "name" => "sub_dir",
-            "parent_cache_path" => "",
-            "size" => 5,
-            "subs" => [],
-            "type" => "directory"
-          },
-          %{
-            "cache_path" => "sub_file",
-            "full_path" => "/fullPath/sub_file",
-            "name" => "sub_file",
-            "parent_cache_path" => "",
-            "size" => 5,
-            "subs" => [],
-            "type" => "regular"
-          }
-        ]
-      }
+      # IO.inspect(response)
+
+      assert response == @expected_root
+    end
+
+    test "Response with path", %{conn: conn, cache: _cache} do
+      # IO.inspect(conn)
+
+      response =
+        conn
+        |> get(Routes.directory_path(conn, :show, "sub_dir/sub_dir"))
+        |> json_response(200)
 
       # IO.inspect(response)
 
-      assert response == expected
+      assert response == @expected_sub_dir
     end
   end
 
