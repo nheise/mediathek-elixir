@@ -4,14 +4,18 @@ defmodule MediathekWeb.DirectoryController do
   alias Mediathek.Directory.Cache
 
   def index(conn, _params) do
-    directory = Cache.get_item_by({""})
-
-    render(conn, :directory, directory: directory)
+    call_cache_and_render( conn, "" )
   end
 
   def show(conn, %{"path" => path}) do
-    directory = Cache.get_item_by({path})
+    call_cache_and_render( conn, path )
+  end
 
-    render(conn, :directory, directory: directory)
+  defp call_cache_and_render( conn, path )  do
+    case Cache.get_item_by({path}) do
+      nil -> send_resp(conn, 404, "Not found")
+      directory -> render(conn, :directory, directory: directory)
+    end
+
   end
 end
