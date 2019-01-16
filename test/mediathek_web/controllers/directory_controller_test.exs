@@ -125,6 +125,19 @@ defmodule MediathekWeb.DirectoryControllerTest do
 
       assert response == @expected_sub_dir
     end
+
+    test "Response with 404 when not found", %{conn: conn, cache: _cache} do
+      # IO.inspect(conn)
+
+      response =
+        conn
+        |> get(Routes.directory_path(conn, :show, "not_found"))
+        |> json_response(404)
+
+      IO.inspect(response)
+
+      assert response == @expected_sub_dir
+    end
   end
 
   defp create_cache(_) do

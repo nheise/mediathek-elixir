@@ -12,10 +12,13 @@ defmodule MediathekWeb.DirectoryController do
   end
 
   defp call_cache_and_render( conn, path )  do
-    case Cache.get_item_by({path}) do
-      nil -> send_resp(conn, 404, "Not found")
-      directory -> render(conn, :directory, directory: directory)
-    end
-
+    with directory <- Cache.get_item_by({path}),
+      false <- is_nil(directory) do
+        render(conn, :directory, directory: directory)
+      else
+        _-> conn
+        |> render(MediathekWeb.ErrorView, :"404")
+        |> halt()
+      end
   end
 end
